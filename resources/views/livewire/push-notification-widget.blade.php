@@ -69,10 +69,17 @@
                     });
                     if (removeRequest.ok) {
                         await localforage.removeItem('deviceId');
-                        const registrations = await navigator.serviceWorker.getRegistrations()
-                        for (let registration of registrations) {
-                            await registration.unregister();
-                        }
+                        navigator.serviceWorker.ready.then((registration) => {
+                            registration.active.postMessage(
+                                "disconnect"
+                            );
+                        });
+                        navigator.serviceWorker.getRegistrations().then(registrations => {
+                            for (const registration of registrations) {
+                                registration.unregister();
+                                console.log('Service Worker unregistered with scope:', registration.scope);
+                            }
+                        });
                     }
                     this.deviceRegistered = false;
                 } else {

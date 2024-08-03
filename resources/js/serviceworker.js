@@ -18,6 +18,15 @@ EchoClient.channel('messages').listen('NewMessageEvent',(event)=> {
         body: event.message,
     });
 });
+self.addEventListener('message', (event) => {
+    if (event.data === 'disconnect') {
+        disconnectEcho();
+    }
+});
+function disconnectEcho() {
+    EchoClient.disconnect();
+    console.log('Echo client disconnected');
+}
 async function getDeviceId() {
     let deviceId = await localforage.getItem('deviceId');
     console.log(deviceId);

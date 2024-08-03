@@ -23,6 +23,10 @@ class NotificationDevicesController extends Controller
 
     public function removeDevice(Request $request)
     {
+        $request->validate([
+            'device_id' => 'required|string',
+        ]);
+
         $device = NotificationDevices::where('device_id', $request->device_id)->first();
         if ($device) {
             $device->delete();

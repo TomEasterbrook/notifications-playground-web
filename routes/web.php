@@ -23,4 +23,4 @@ Route::get('/serviceworker.js', function () {
 
 Route::post('/notification-devices/register', [NotificationDevicesController::class, 'registerAndStore'])
     ->middleware(['auth']);
-Route::delete('/notification-devices/remove', [NotificationDevicesController::class, 'removeDevice'])
+Route::delete('/notification-devices/remove', [NotificationDevicesController::class, 'removeDevice']);

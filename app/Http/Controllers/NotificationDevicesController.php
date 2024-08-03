@@ -20,4 +20,19 @@ class NotificationDevicesController extends Controller
             'device_id' => $proposedDeviceId,
         ]);
     }
+
+    public function removeDevice(Request $request)
+    {
+        $device = NotificationDevices::where('device_id', $request->device_id)->first();
+        if ($device) {
+            $device->delete();
+            return response()->json([
+                'message' => 'Device removed successfully',
+            ]);
+        }
+        return response()->json([
+            'message' => 'Device not found',
+        ], 404);
+
+    }
 }

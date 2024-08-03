@@ -45,4 +45,9 @@ class User extends AuthUser
             'password' => 'hashed',
         ];
     }
+
+    public function notificationDevices(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(NotificationDevices::class);
+    }
 }

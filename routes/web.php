@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationDevicesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', \App\Livewire\Dashboard::class)->name('dashboard')
@@ -19,3 +20,6 @@ Route::get('/serviceworker.js', function () {
         'Cache-Control' => 'public, max-age=3600',
     ]);
 })->name('serviceworker');
+
+Route::post('/notification-devices/register', [NotificationDevicesController::class, 'registerAndStore'])
+    ->middleware(['auth']);

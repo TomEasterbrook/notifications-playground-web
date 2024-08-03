@@ -1,4 +1,6 @@
-<div x-data="State()" class="fi-dropdown-header flex w-full gap-2 p-3 text-sm  fi-dropdown-header-color-gray fi-color-gray">
+<div x-data="State()"
+     x-init="bootWidget()"
+     class="fi-dropdown-header flex w-full gap-2 p-3 text-sm  fi-dropdown-header-color-gray fi-color-gray">
     <div x-show="!deviceRegistered" class="fi-dropdown-header-label flex-1 truncate text-start text-gray-700 dark:text-gray-200">
         <button @click="enableNotifications()">Enable Notifications</button>
     </div>
@@ -10,14 +12,17 @@
     function State() {
         return {
             deviceRegistered: false,
+            bootWidget: async function () {
+                await this.isDeviceRegistered();
+            },
             enableNotifications: async function () {
-                Notification.requestPermission().then((result)=>{
-                    if(result === 'granted'){
+                Notification.requestPermission().then((result) => {
+                    if (result === 'granted') {
                         if ('serviceWorker' in navigator) {
                             this.registerDevice()
-                            navigator.serviceWorker.register('/serviceworker.js').then(function(registration) {
+                            navigator.serviceWorker.register('/serviceworker.js').then(function (registration) {
                                 console.log('Service Worker registered with scope:', registration.scope);
-                            }).catch(function(error) {
+                            }).catch(function (error) {
                                 console.log('Service Worker registration failed:', error);
                             });
                         }
@@ -27,6 +32,7 @@
             isDeviceRegistered: async function () {
                 let deviceId = await localforage.getItem('deviceId');
                 this.deviceRegistered = deviceId !== null;
+                return this.deviceRegistered;
             },
             registerDevice: async function () {
                 if (!await this.isDeviceRegistered()) {
@@ -63,21 +69,17 @@
                     });
                     if (removeRequest.ok) {
                         await localforage.removeItem('deviceId');
-                        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                            for(let registration of registrations) {
-                                registration.unregister();
-                            }
-                        });
-                        console.log('Device removed from the server');
-                    } else {
-                        throw new Error('Device removal failed');
+                        const registrations = await navigator.serviceWorker.getRegistrations()
+                        for (let registration of registrations) {
+                            await registration.unregister();
+                        }
                     }
+                    this.deviceRegistered = false;
                 } else {
                     console.log('Device not registered with the server');
+                    this.deviceRegistered = false;
                 }
-                this.deviceRegistered = false;
             }
-
         };
     }
 

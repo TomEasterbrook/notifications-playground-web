@@ -1,5 +1,8 @@
 import axios from 'axios';
+import localforage from "localforage";
+
 window.axios = axios;
+window.localforage = localforage;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

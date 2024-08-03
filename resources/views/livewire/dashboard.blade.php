@@ -3,6 +3,7 @@ x-init="
 Notification.requestPermission().then((result)=>{
     if(result === 'granted'){
         if ('serviceWorker' in navigator) {
+        localforage.setItem('deviceId', 'granted');
             navigator.serviceWorker.register('/serviceworker.js').then(function(registration) {
                 console.log('Service Worker registered with scope:', registration.scope);
             }).catch(function(error) {

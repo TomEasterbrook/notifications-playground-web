@@ -1,8 +1,8 @@
-<div x-data="State()">
-    <div x-show="!deviceRegistered">
+<div x-data="State()" class="fi-dropdown-header flex w-full gap-2 p-3 text-sm  fi-dropdown-header-color-gray fi-color-gray">
+    <div x-show="!deviceRegistered" class="fi-dropdown-header-label flex-1 truncate text-start text-gray-700 dark:text-gray-200">
         <button @click="enableNotifications()">Enable Notifications</button>
     </div>
-    <div x-show="deviceRegistered">
+    <div x-show="deviceRegistered" class="fi-dropdown-header-label flex-1 truncate text-start text-gray-700 dark:text-gray-200">
         <button @click="removeDevice()">Disable Notifications</button>
     </div>
 </div>

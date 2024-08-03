@@ -39,6 +39,9 @@ class AdminPanelProvider extends PanelProvider
             ->renderHook(PanelsRenderHook::USER_MENU_PROFILE_AFTER, function () {
                 return view('user-menu-hook');
             })
+            ->renderHook(PanelsRenderHook::HEAD_END, function () {
+                return view('head-end-hook');
+            })
             ->renderHook(PanelsRenderHook::BODY_END, function () {
                 return view('body-end-hook');
             })

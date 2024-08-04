@@ -25,6 +25,11 @@
                             }).catch(function (error) {
                                 console.log('Service Worker registration failed:', error);
                             });
+                            navigator.serviceWorker.ready.then((registration) => {
+                                registration.active.postMessage(
+                                    "connect"
+                                );
+                            });
                         }
                     }
                 });

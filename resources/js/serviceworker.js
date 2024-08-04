@@ -25,10 +25,8 @@ self.addEventListener('message', async (event) => {
 
 
 async function connectEcho(deviceId) {
-    console.log('Echo client connecting');
     EchoClient.connect();
     EchoClient.channel('notifications').listen('NewNotificationEvent',(event)=> {
-        console.log(event);
         if (event.deviceId === deviceId || event.deviceId === 'all') {
             showNotification(event);
         }
@@ -39,7 +37,6 @@ async function connectEcho(deviceId) {
 }
 async function disconnectEcho() {
     EchoClient.disconnect();
-    console.log('Echo client disconnected');
 }
 function showNotification(event) {
     self.registration.showNotification(event.title, {
